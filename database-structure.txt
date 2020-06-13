@@ -1,0 +1,34 @@
+MariaDB [exampledb]> SHOW TABLES;
++-----------------------+
+| Tables_in_exampledb |
++-----------------------+
+| accounts              |
+| full                  |
++-----------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [exampledb]> DESCRIBE accounts;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| username | varchar(255) | NO   | UNI | NULL    |                |
+| password | varchar(255) | NO   |     | NULL    |                |
+| admin    | tinyint(1)   | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [exampledb]> DESCRIBE full;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| id             | int(11)  | YES  |     | NULL    |       |
+| title          | longtext | YES  |     | NULL    |       |
+| date           | datetime | YES  |     | NULL    |       |
+| embed_code     | longtext | YES  |     | NULL    |       |
+| primary_game   | longtext | YES  |     | NULL    |       |
+| secondary_game | longtext | YES  |     | NULL    |       |
+| thumb          | longtext | YES  |     | NULL    |       |
+| length         | time     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+8 rows in set (0.001 sec)
