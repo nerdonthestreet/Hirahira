@@ -15,13 +15,16 @@
   <div class="experienceContainer">
   <article class="videoContainer">
    <?php
-    $stmt = $pdo->prepare("SELECT title, date, primary_game, secondary_game, length, embed_code FROM full WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT title, date, primary_game, secondary_game, length, embed_code, thumb FROM full WHERE id = :id");
     $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
     $param_id = trim($_GET["id"]);
     $stmt->execute();
     $result = $stmt->fetch();
-    echo $result['embed_code'];
    ?>
+   <video-js id="content_video" class="video-js" controls preload="auto" autoplay="true" data-setup='{"aspectRatio": "16:9", "playbackRates": [0.5, 1, 1.5, 2], "html5": {"hls": {"overrideNative":true}}}' poster="<?php echo $result['thumb'] ?>">
+   <?php echo $result['embed_code']; ?>
+   </video-js>
+   <script src="https://kushking.tips/player/videojs-resolution-switcher.js"></script>
    <a class="button-blue" style="margin-right: 5px;" href="/full-recordings.php">Back to List</a>
    <a class="button-blue" href="https://twitter.com/intent/tweet?button_hashtag=<?php echo $hashtag ?>">Tweet #<?php echo $hashtag ?></a>
   

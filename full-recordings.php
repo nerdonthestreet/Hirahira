@@ -17,8 +17,8 @@
   <h1 class="main-title"><?php echo $sitename ?></h1>
   
   <p class="top-nav">
-   <a class="button-orange" style="margin-right: 5px;" href="./index.php">Home</a>
-   <a class="button-blue" style="margin-right: 5px;<?php if($sort == "asc"){echo "text-decoration: underline; text-underline-position: under;";} ?>" href="./full-recordings.php?sort=asc">Oldest First</a>
+   <a class="button-orange" href="./index.php">Home</a>
+   <a class="button-blue" <?php if($sort == "asc"){echo "style=\"text-decoration: underline; text-underline-position: under;\"";} ?>href="./full-recordings.php?sort=asc">Oldest First</a>
    <a class="button-blue" <?php if($sort == "desc"){echo "style=\"text-decoration: underline; text-underline-position: under;\"";} ?>href="./full-recordings.php?sort=desc">Newest First</a>
   </p>
   
@@ -61,14 +61,19 @@
   ?>
   </table>
   
+  <p class="bottom-nav">
   <?php
-   if($_SESSION["loggedin"] == false){
-    echo '<p class="bottom-nav"><a class="button-orange" href="./login.php">Log In</a></p>';
-   }
-   if($_SESSION["loggedin"] == true){
-    echo '<p class="bottom-nav"><a class="button-orange" href="./logout.php">Log Out</a></p>';
-   }
-  ?>
+    if($_SESSION["loggedin"] == false){
+     echo '<a class="button-orange" href="./login.php">Log In</a>';
+    }
+    if($_SESSION["loggedin"] == true){
+     if($_SESSION["admin"] == true){
+      echo '<a class="button-blue" href="./experience-add.php">Add Recording</a>';
+     }
+     echo '<a class="button-orange" href="./logout.php">Log Out</a>';
+    }
+   ?>
+  </p>
   
   <?php require_once "./footer.php"; ?>
 

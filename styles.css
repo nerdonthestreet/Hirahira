@@ -96,10 +96,18 @@ body {
 	margin-bottom: 25px;
 }
 
+.top-nav a:not(:first-child) {
+	margin-left: 5px;
+}
+
 .bottom-nav {
 	text-align: center;
 	margin-top: 25px;
 	margin-bottom: 25px;
+}
+
+.bottom-nav a:not(:first-child) {
+	margin-left: 5px;
 }
 
 .episode-link {
@@ -116,6 +124,15 @@ body {
 	text-align: center;
 	font-family: oxygen;
 	font-size: 0.8em;
+}
+
+.footer a {
+	color: powderblue;
+	text-decoration: none;
+}
+
+.footer a:hover {
+	text-decoration: underline;
 }
 
 .experienceContainer {
@@ -233,4 +250,8 @@ body {
         
 #vjs-logobrand-image {
 	visibility: hidden;
+}
+
+#admin-instructions {
+	font-family: oxygen;
 }

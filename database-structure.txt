@@ -19,16 +19,16 @@ MariaDB [exampledb]> DESCRIBE accounts;
 4 rows in set (0.001 sec)
 
 MariaDB [exampledb]> DESCRIBE full;
-+----------------+----------+------+-----+---------+-------+
-| Field          | Type     | Null | Key | Default | Extra |
-+----------------+----------+------+-----+---------+-------+
-| id             | int(11)  | YES  |     | NULL    |       |
-| title          | longtext | YES  |     | NULL    |       |
-| date           | datetime | YES  |     | NULL    |       |
-| embed_code     | longtext | YES  |     | NULL    |       |
-| primary_game   | longtext | YES  |     | NULL    |       |
-| secondary_game | longtext | YES  |     | NULL    |       |
-| thumb          | longtext | YES  |     | NULL    |       |
-| length         | time     | YES  |     | NULL    |       |
-+----------------+----------+------+-----+---------+-------+
++----------------+----------+------+-----+---------+----------------+
+| Field          | Type     | Null | Key | Default | Extra          |
++----------------+----------+------+-----+---------+----------------+
+| id             | int(11)  | NO   | PRI | NULL    | auto_increment |
+| title          | longtext | YES  |     | NULL    |                |
+| date           | datetime | YES  |     | NULL    |                |
+| embed_code     | longtext | YES  |     | NULL    |                |
+| primary_game   | longtext | YES  |     | NULL    |                |
+| secondary_game | longtext | YES  |     | NULL    |                |
+| thumb          | longtext | YES  |     | NULL    |                |
+| length         | time     | YES  |     | NULL    |                |
++----------------+----------+------+-----+---------+----------------+
 8 rows in set (0.001 sec)
