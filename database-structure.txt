@@ -1,11 +1,87 @@
+# Create the database using these commands:
+
+```
+DROP DATABASE IF EXISTS hirahira_example;
+CREATE DATABASE hirahira_example;
+CREATE TABLE accounts (id, username, password, role);
+CREATE TABLE archives (id int NOT NULL AUTO_INCREMENT,
+                       vimeo_id tinytext,
+                       youtube_id tinytext,
+                       embed_code longtext,
+                       thumb longtext,
+                       date datetime,
+                       length time,
+                       PRIMARY KEY (id));
+CREATE TABLE games (id int NOT NULL AUTO_INCREMENT,
+                    name tinytext NOT NULL,
+                    type tinytext NOT NULL,
+                    PRIMARY KEY (id),
+                    CONSTRAINT game_type CHECK (type in ('primary', 'secondary')));
+CREATE TABLE archives_games (archive_id int NOT NULL,
+                             game_id int NOT NULL,
+                             FOREIGN KEY (archive_id) REFERENCES archives (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                             FOREIGN KEY (game_id) REFERENCES games (id) ON DELETE RESTRICT ON UPDATE CASCADE);
+CREATE TABLE clips (id int NOT NULL AUTO_INCREMENT,
+                    type tinytext NOT NULL,
+                    title tinytext,
+                    vimeo_id tinytext,
+                    youtube_id tinytext,
+                    embed_code longtext,
+                    thumb longtext,
+                    date datetime,
+                    length time,
+                    archive_id int,
+                    PRIMARY KEY (id),
+                    FOREIGN KEY (archive_id) REFERENCES archives (id) ON DELETE RESTRICT ON UPDATE CASCADE),
+                    CONSTRAINT clip_type CHECK (type in ('highlight', 'bts')));
+```
+
+# The database consists of the following tables:
+
+## accounts
+
+- id: Numeric ID (auto-incrementing)
+- username
+- password
+- role: `normal` or `admin`
+
+## videos
+
+- id: Numeric ID (auto-incrementing)
+- type: `episode` (uncut archive) or `clip` (short outtake)
+- title
+- date
+- vimeo_id: Numeric Vimeo ID for the video (takes highest precedence)
+- youtube_id: Alphanumeric YouTube ID for the video
+- embed_code: Manual embed code for the video (takes lowest precedence)
+- thumb: Link to thumbnail URL (optional if using `vimeo_id` or `youtube_id`; takes highest precedence)
+- length: Runtime (`time` type)
+
+## games
+
+- id: Numeric ID (auto-incrementing)
+- name: Name of the game
+- type: "primary" (usually a long-form game with a plot)
+         or "secondary" (usually a short-form game played in the last 1/3 of the stream).
+
+## archives_games
+
+- archive_id = archives(id)
+- game_id = games(id)
+
+# Resulting tables on an installed instance:
+
 MariaDB [exampledb]> SHOW TABLES;
 +-----------------------+
 | Tables_in_exampledb |
 +-----------------------+
 | accounts              |
+| archives              |
+| archives_games        |
 | full                  |
+| games                 |
 +-----------------------+
-2 rows in set (0.000 sec)
+5 rows in set (0.001 sec)
 
 MariaDB [exampledb]> DESCRIBE accounts;
 +----------+--------------+------+-----+---------+----------------+
@@ -17,6 +93,29 @@ MariaDB [exampledb]> DESCRIBE accounts;
 | admin    | tinyint(1)   | YES  |     | NULL    |                |
 +----------+--------------+------+-----+---------+----------------+
 4 rows in set (0.001 sec)
+
+MariaDB [exampledb]> DESCRIBE archives;
++------------+----------+------+-----+---------+----------------+
+| Field      | Type     | Null | Key | Default | Extra          |
++------------+----------+------+-----+---------+----------------+
+| id         | int(11)  | NO   | PRI | NULL    | auto_increment |
+| vimeo_id   | tinytext | YES  |     | NULL    |                |
+| youtube_id | tinytext | YES  |     | NULL    |                |
+| embed_code | longtext | YES  |     | NULL    |                |
+| thumb      | longtext | YES  |     | NULL    |                |
+| date_time  | datetime | YES  |     | NULL    |                |
+| length     | time     | YES  |     | NULL    |                |
++------------+----------+------+-----+---------+----------------+
+7 rows in set (0.001 sec)
+
+MariaDB [exampledb]> DESCRIBE archives_games;
++------------+---------+------+-----+---------+-------+
+| Field      | Type    | Null | Key | Default | Extra |
++------------+---------+------+-----+---------+-------+
+| archive_id | int(11) | NO   | MUL | NULL    |       |
+| game_id    | int(11) | NO   | MUL | NULL    |       |
++------------+---------+------+-----+---------+-------+
+2 rows in set (0.001 sec)
 
 MariaDB [exampledb]> DESCRIBE full;
 +----------------+----------+------+-----+---------+----------------+
@@ -32,3 +131,13 @@ MariaDB [exampledb]> DESCRIBE full;
 | length         | time     | YES  |     | NULL    |                |
 +----------------+----------+------+-----+---------+----------------+
 8 rows in set (0.001 sec)
+
+MariaDB [exampledb]> DESCRIBE games;
++-------+----------+------+-----+---------+----------------+
+| Field | Type     | Null | Key | Default | Extra          |
++-------+----------+------+-----+---------+----------------+
+| id    | int(11)  | NO   | PRI | NULL    | auto_increment |
+| name  | tinytext | NO   |     | NULL    |                |
+| type  | tinytext | NO   |     | NULL    |                |
++-------+----------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)

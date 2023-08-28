@@ -11,7 +11,7 @@
  // Process POSTing to this file (but only if it's coming from an admin.)
  // Check the input if we POST to this file.
  if($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["admin"] == true){
-  $sql = "UPDATE full SET embed_code = :embed_code, thumb = :thumb, title = :title, date = :date, primary_game = :primary_game, secondary_game = :secondary_game, length = :length WHERE id = :id";
+  $sql = "UPDATE archives SET embed_code = :embed_code, thumb = :thumb, title = :title, date = :date, primary_game = :primary_game, secondary_game = :secondary_game, length = :length WHERE id = :id";
   if($stmt = $pdo->prepare($sql)){
    // Plug variables into the SQL statement.
    $param_embed_code = trim($_POST["embed_code"]);
@@ -54,7 +54,7 @@
   <article class="videoContainer">
    <form action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" method="post">
     <?php
-     $stmt = $pdo->prepare("SELECT title, date, primary_game, secondary_game, embed_code, thumb, length FROM full WHERE id = :id");
+     $stmt = $pdo->prepare("SELECT title, date, primary_game, secondary_game, embed_code, thumb, length FROM archives WHERE id = :id");
      $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
      $param_id = trim($_GET["id"]);
      $stmt->execute();

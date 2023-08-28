@@ -1,10 +1,14 @@
 <?php
  // Global database/session initialization.
  require_once "./config.php";
+ require_once "./content/thumbnail.php";
+ require_once "./content/video.php";
+ // require_once "./content/download.php";
 ?>
 <!DOCTYPE html>
 <html>
  <head>
+  <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" type="text/css" href="./styles.css">
   <link rel="stylesheet" type="text/css" href="./player/video-js.css">
   <link rel="stylesheet" type="text/css" href="./player/videojs-resolution-switcher.css">
@@ -13,33 +17,45 @@
  </head>
  <body>
   <div class="experienceContainer">
-  <article class="videoContainer">
+  <article id="videoContainer">
    <?php
-    $stmt = $pdo->prepare("SELECT title, date, primary_game, secondary_game, length, embed_code, thumb FROM full WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT date_time, thumb, vimeo_id, youtube_id, length, embed_code, thumb FROM archives WHERE id = :id");
     $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
     $param_id = trim($_GET["id"]);
     $stmt->execute();
     $result = $stmt->fetch();
    ?>
-   <video-js id="content_video" class="video-js" controls preload="auto" autoplay="true" data-setup='{"aspectRatio": "16:9", "playbackRates": [0.5, 1, 1.5, 2], "html5": {"hls": {"overrideNative":true}}}' poster="<?php echo $result['thumb'] ?>">
-   <?php echo $result['embed_code']; ?>
-   </video-js>
-   <script src="https://kushking.tips/player/videojs-resolution-switcher.js"></script>
-   <a class="button-blue" style="margin-right: 5px;" href="/full-recordings.php">Back to List</a>
-   <a class="button-blue" href="https://twitter.com/intent/tweet?button_hashtag=<?php echo $hashtag ?>">Tweet #<?php echo $hashtag ?></a>
-  
+   <?php getArchiveVideo($result['embed_code'], $result['vimeo_id'], $result['youtube_id']); ?>
+   <a class="button-orange" style="margin-right: 5px;" href="/archives.php">Back to List</a>
+   <a class="button-blue" style="margin-right: 5px;" href="https://twitter.com/intent/tweet?button_hashtag=<?php echo $hashtag ?>">Tweet #<?php echo $hashtag ?></a>
+   <a class="button-blue" <?php echo "href='./download.php?vimeo_id=" . $result['vimeo_id'] . "'";?>>Download</a>
+
+   <script>
+    function hideChat() {
+     document.getElementById("chatContainer").style.display = "none";
+     document.getElementById("chat-toggle").setAttribute("onclick", "showChat()");
+     document.getElementById("chat-toggle").innerHTML = "Show Chat";
+    }
+
+    function showChat() {
+     document.getElementById("chatContainer").style.display = "unset";
+     document.getElementById("chat-toggle").setAttribute("onclick", "hideChat()");
+     document.getElementById("chat-toggle").innerHTML = "Hide Chat";
+    }
+   </script>
+   <a id="chat-toggle" class="button-blue right-button" style="margin-left: 9px;" onclick="hideChat()">Hide Chat</a>
    <?php
     // If you're an admin, display an edit button.
     if($_SESSION["admin"] == true){
-     echo "<a class=\"button-orange\" id=\"right-button\" href=\"/experience-edit.php?id=" . trim($_GET["id"]) . "\">Edit Episode</a>";
-    }elseif($_SESSUION["id"] == ""){ // If you're not logged in, display a login button.
-     echo "<a class=\"button-orange\" id=\"right-button\" href=\"/login.php?id=" . trim($_GET["id"]) . "\">Log In</a>";
+     echo "<a class=\"button-blue right-button\" href=\"/experience-edit.php?id=" . trim($_GET["id"]) . "\">Edit Episode</a>";
+    }elseif($_SESSION["id"] == ""){ // If you're not logged in, display a login button.
+     echo "<a class=\"button-blue right-button\" href=\"/login.php?id=" . trim($_GET["id"]) . "\">Log In</a>";
     }
    ?>
-   
+
    <br/>
    <h1 class="full-title"><?php echo $result['title']; ?></h1>
-   <?php $rawdate = strtotime($result["date"]);
+   <?php $rawdate = strtotime($result["date_time"]);
    $prettydate = date("l, d F Y @ g:i A", $rawdate); ?>
    <p class="full-date"><?php echo $prettydate; ?></p>
    
@@ -52,7 +68,7 @@
    </div>
    
   </article>
-  <article class="chatContainer">
+  <article id="chatContainer">
    <div id="display-cues-1" class="display-cues">
     <p id="start-point-1"><p>
    </div>
@@ -85,7 +101,7 @@
      myPlayer.currentTime(t + 0.01);
     }
     video_id = 1;
-    var track = document.getElementById("entrack-" + video_id).track; // get text track from track element
+    var track = document.getElementById("entrack-" + video_id); // get text track from track element
     console.log(track);
     
     // Wait until the WebVTT file has been downloaded.

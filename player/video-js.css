@@ -404,6 +404,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  outline: none;
 }
 
 body.vjs-full-window {
@@ -1660,4 +1661,14 @@ video::-webkit-media-text-track-display {
 .video-js .vjs-menu *:focus:not(:focus-visible) {
   outline: none;
   background: none;
+}
+
+/* Custom Stuff */
+
+.vjs-error-display {
+ display: none;
+}
+
+.vjs-loading-spinner {
+ display: none !important;
 }

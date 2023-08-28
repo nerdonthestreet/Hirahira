@@ -32,20 +32,89 @@ body {
 .main-title {
  text-align: center;
  font-family: codeBold;
+ font-size: 3rem;
+ margin-top: 1rem;
+ margin-bottom: 0rem;
 }
 
-.full-recordings-list {
+.archive-list {
 	margin: auto;
 	border: 2px solid white;
 	font-family: oxygen;
 	border-collapse: collapse;
+	max-width: 1200px;
 }
 
-.full-recordings-list td {
+.archive-link {
+	text-decoration: none;
+}
+
+.archive-entry {
+	display: flex;
+        flex-wrap: wrap;
+	width: 100%;
+        color: white;
+        container-type: inline-size;
+}
+
+@container (max-width: 759px) {
+	.archive-entry-details {
+		padding-bottom: 5px;
+		border-bottom: 5px solid black;
+	}
+}
+
+.archive-link:not(:first-child) > .archive-entry {
+	border-top: 1px solid black;
+}
+
+.lightResult:hover, .darkResult:hover {
+	background-color: #1F1F1F;
+}
+
+.archive-entry-details {
+        display: inline-block;
+        flex: 7;
+        min-width: 400px;
+}
+
+.archive-date {
+	text-align: center;
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+.archive-game-type-label {
+        font-size: 1.25em;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-align: center;
+}
+
+.archive-game-list {
+        text-align: center;
+        margin-top: 0;
+        list-style-position: inside;
+}
+
+.archive-game-name {
+        margin: 0;
+        margin-left: -40px;
+}
+
+.archive-game-name-inner {
+	margin-left: -5px;
+}
+
+.archive-entry > p {
+	text-align: center;
+}
+
+.archive-list td {
 	padding: 5px 10px;
 }
 
-.full-recordings-list th {
+.archive-list th {
 	padding: 5px;
 }
 
@@ -87,12 +156,37 @@ body {
 	cursor: pointer;
 }
 
-#right-button {
+.button-blue:hover, .button-orange:hover {
+	background-image: linear-gradient(rgb(0 0 0/25%) 0 0);
+}
+
+.right-button {
 	float: right;
+}
+
+.browse-filters {
+	text-align: center;
+	margin-top: 16px;
+	margin-bottom: 25px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 800px;
+        border: 1px dashed white;
+        padding: 10px;
+        padding-top: 0px;
+}
+
+.browse-filter-row {
+	margin-top: 10px;
+}
+
+.browse-filter-row a:not(:first-child) {
+	margin-left: 5px;
 }
 
 .top-nav {
 	text-align: center;
+        margin-top: 16px;
 	margin-bottom: 25px;
 }
 
@@ -139,13 +233,13 @@ body {
 	display: flex;
 }
 
-.videoContainer {
+#videoContainer {
 	flex: 3;
 	float: left;
 	margin-right: 10px;
 }
 
-.chatContainer {
+#chatContainer {
 	flex: 1;
 	float: left;
 }
@@ -159,9 +253,17 @@ body {
 	margin-bottom: 10px;
 }
 
-.full-preview {
-	height: 100px;
-	border: 3px solid black;
+.archive-thumbnail-container {
+	flex: 3;
+        background-color: #000000;
+        display: flex;
+        align-items: center;
+}
+
+.archive-thumbnail {
+        display: block;
+	width: 100%;
+	min-width: 360px;
 }
 
 .full-title {
@@ -180,6 +282,10 @@ body {
 
 .lightResult {
 	background-color: #3c3c3c;
+}
+
+.darkResult {
+	background-color: #2a2a2a;
 }
 
 .experience-info {
@@ -254,4 +360,34 @@ body {
 
 #admin-instructions {
 	font-family: oxygen;
+}
+
+.introduction, .stats {
+        max-width: 1000px;
+        margin: auto;
+        margin-top: 20px;
+        font-family: oxygen;
+        background: linear-gradient(135deg, rgba(90, 157, 212, 0.4) 0%, rgba(90, 157, 212, 0.18) 100%);
+        backdrop-filter: blur(25px) saturate(125%);
+        box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
+        padding: .5rem;
+        border-radius: .2rem;
+}
+
+.introduction h2, .stats h2 {
+        text-align: center;
+        margin: 0px;
+}
+
+.introduction p {
+        margin: 0px;
+        margin-top: 10px;
+}
+
+.introduction > p > a {
+	color: lightgrey;
+}
+
+.introduction > p > a:hover {
+	color: #a7a7a7;
 }

@@ -9,6 +9,8 @@
    $sqlpassword = ""; // SQL password.
    $sqldbname = ""; // SQL database name.
    $hashtag = ""; // Twitter hashtag to display on video playback pages.
+   $vimeo_token = ""; // Vimeo API access token.
+   $welcome_text = ""
 
    try {
     $pdo = new PDO("mysql:host=$sqlservername;dbname=$sqldbname", $sqlusername, $sqlpassword);

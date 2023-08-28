@@ -11,7 +11,7 @@
  // Process POSTing to this file (but only if it's coming from an admin.)
  // Check the input if we POST to this file.
  if($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["admin"] == true){
-  $sql = "INSERT INTO full (embed_code, thumb, title, date, primary_game, secondary_game, length) VALUES (:embed_code, :thumb, :title, :date, :primary_game, :secondary_game, :length)";
+  $sql = "INSERT INTO archives (embed_code, thumb, title, date, primary_game, secondary_game, length) VALUES (:embed_code, :thumb, :title, :date, :primary_game, :secondary_game, :length)";
   if($stmt = $pdo->prepare($sql)){
    // Plug variables into the SQL statement.
    $param_embed_code = trim($_POST["embed_code"]);
